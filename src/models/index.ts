@@ -4,14 +4,13 @@ export interface ImodelUrl extends Document {
   url: string;
   shortUrl: string;
   createDate: Date;
-  lastAccess: Date;
+  lastAccess: String;
   timesAccess: number;
 }
 
 const urlSchema = new Schema({
   url: {
     type: String,
-    unique: true,
     required: true,
   },
   shortUrl: {
@@ -24,7 +23,7 @@ const urlSchema = new Schema({
     required: true,
   },
   lastAccess: {
-    type: Date,
+    type: String,
     required: true,
   },
   timesAccess: {

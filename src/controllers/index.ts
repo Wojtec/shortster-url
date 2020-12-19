@@ -18,13 +18,13 @@ export const shortUrl = async (
   try {
     const clientShortCodeMin = 4;
     const { url, clientShortCode } = req.body;
-    if (url === "") res.status(400).json("Url is required");
-    if (clientShortCode !== "" && clientShortCode.length < clientShortCodeMin) {
+    if (!url) return res.status(400).json({ message: "Url is required" });
+    if (clientShortCode && clientShortCode.length < clientShortCodeMin) {
       return res.status(400).json({
         message: "Short code should have a minimum 4 characters.",
       });
     }
-    if (url && clientShortCode.length > 0) {
+    if (url && clientShortCode) {
       const shortUrl: ImodelUrl = new ShortUrl({
         url: url,
         shortUrl: clientShortCode,
@@ -94,7 +94,8 @@ export const redirectUrl = async (
     const findUrl = await ShortUrl.findOne({
       shortUrl: shorturl,
     });
-    if (!findUrl) res.status(404).json({ message: "Short URL not found." });
+    if (!findUrl)
+      return res.status(404).json({ message: "Short URL not found." });
     if (findUrl) {
       findUrl.timesAccess += 1;
       findUrl.lastAccess = getDate.toString();
@@ -123,9 +124,10 @@ export const shortCodeStats = async (
     const findUrl = await ShortUrl.findOne({
       shortUrl: shorturl,
     });
-    if (!findUrl) res.status(404).json({ message: "Short URL not found." });
+    if (!findUrl)
+      return res.status(404).json({ message: "Short URL not found." });
     if (findUrl) {
-      res.status(200).json({
+      return res.status(200).json({
         registeredDate: findUrl.createDate.toString(),
         lastAccess: findUrl.lastAccess,
         timesAccess: findUrl.timesAccess,

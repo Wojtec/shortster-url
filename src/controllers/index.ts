@@ -96,7 +96,7 @@ export const redirectUrl = async (
     });
     if (!findUrl)
       return res.status(404).json({ message: "Short URL not found." });
-    if (findUrl) {
+    else {
       findUrl.timesAccess += 1;
       findUrl.lastAccess = getDate.toString();
       await ShortUrl.updateOne({ _id: findUrl._id }, findUrl);
@@ -126,7 +126,7 @@ export const shortCodeStats = async (
     });
     if (!findUrl)
       return res.status(404).json({ message: "Short URL not found." });
-    if (findUrl) {
+    else {
       return res.status(200).json({
         registeredDate: findUrl.createDate.toString(),
         lastAccess: findUrl.lastAccess,

@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  api:
+    container_name: shortster
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    volumes:
+      - .:/app/dist
+  mongo:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - "27017:27017"
+    logging:
+      driver: none
